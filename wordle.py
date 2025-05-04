@@ -25,6 +25,7 @@ class WordleGame:
         self.num_attempt += 1
         feedback = [0] * 5
 
+        # Todo: Buggy color feedback
         for i, c in enumerate(word):
             if c == self.target_word[i]:
                 feedback[i] = 2
