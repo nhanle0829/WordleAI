@@ -13,7 +13,10 @@ class WordleGame:
         print(words[:10])
         return np.random.choice(words)
 
-    def new_game(self, start_word:str=None):
+    def set_target_word(self, word: str) -> None:
+        self.target_word = word
+
+    def new_game(self, start_word:str=None) -> None:
         self.target_word = self.choose_target_word()
         if start_word is not None:
             pass
