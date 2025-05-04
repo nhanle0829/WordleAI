@@ -1,5 +1,3 @@
-from typing import List
-
 import numpy as np
 
 
@@ -7,7 +5,6 @@ class WordleGame:
     def __init__(self):
         self.target_word = self.choose_target_word()
         self.num_attempt = 0
-        pass
 
     @staticmethod
     def choose_target_word() -> str:
@@ -36,10 +33,22 @@ class WordleGame:
         correct = (feedback == [2,2,2,2,2])
         return [feedback, correct]
 
+    def play_human(self):
+        guess = input("Enter your first guess: ")
+        feedbacks = self.guess_word(guess)
+        while not feedbacks[1]:
+            if self.num_attempt == 6:
+                print("You Lose!")
+                print(f"The correct word is: {self.target_word}")
+                break
+
+            guess = input("Enter your next guess: ")
+            feedbacks = self.guess_word(guess)
+
+        if feedbacks[1]:
+            print("You Win!")
+
 
 if __name__ == "__main__":
     game = WordleGame()
-    first_guest = input()
-    while not game.guess_word(first_guest)[1]:
-        guess = input()
-        game.guess_word(guess)
+    game.play_human()
