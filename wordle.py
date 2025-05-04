@@ -19,7 +19,7 @@ class WordleGame:
     def new_game(self, start_word:str=None) -> None:
         self.target_word = self.choose_target_word()
         if start_word is not None:
-            pass
+            self.guess_word(start_word)
 
     def guess_word(self, word) -> list[list[int] | bool]:
         self.num_attempt += 1
