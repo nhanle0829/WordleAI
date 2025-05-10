@@ -23,16 +23,7 @@ class WordleGame:
 
     def guess_word(self, word) -> list[list[int] | bool]:
         self.num_attempt += 1
-        feedback = [0] * 5
-
-        # Todo: Buggy color feedback
-        for i, c in enumerate(word):
-            if c == self.target_word[i]:
-                feedback[i] = 2
-            elif c in self.target_word:
-                feedback[i] = 1
-            else:
-                feedback[i] = 0
+        feedback = self.give_feedback(word)
 
         correct = (feedback == [2,2,2,2,2])
         return [feedback, correct]
@@ -52,7 +43,32 @@ class WordleGame:
         if feedbacks[1]:
             print("You Win!")
 
+    def give_feedback(self, guessed_word: str) -> list[int]:
+        feedback = [0] * len(guessed_word)
+        target_word = list(self.target_word)
+        guessed_word = list(guessed_word)
+
+        for i in range(len(target_word)):
+            if target_word[i] == guessed_word[i]:
+                feedback[i] = 2
+                target_word[i] = '_'
+                guessed_word[i] = '_'
+
+        for i, c in enumerate(guessed_word):
+            if c != '_':
+                for j in range(len(target_word)):
+                    if c == target_word[j]:
+                        feedback[i] = 1
+                        target_word[j] = '_'
+                        guessed_word[i] = '_'
+                        break
+
+        return feedback
+
 
 if __name__ == "__main__":
     game = WordleGame()
-    game.play_human()
+    # game.play_human()
+
+    game.set_target_word("crepe")
+    print(game.give_feedback("speed"))
