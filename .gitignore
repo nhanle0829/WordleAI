@@ -366,3 +366,6 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.toptal.com/developers/gitignore/api/macos,windows,python,pycharm,visualstudiocode
+
+wordle_word_feedback_table.json
+wordle_word_index_table.json
