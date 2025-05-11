@@ -4,7 +4,7 @@ import wordle
 
 
 class WordleBaseAgent:
-    def __init__(self, first_guess):
+    def __init__(self, first_guess=None):
         self.first_guess = first_guess
         self.valid_words = self.get_valid_words()
         self.word_index_table = self.get_word_index_table()
@@ -44,17 +44,23 @@ class WordleBaseAgent:
             if feedbacks[1]:
                 break
 
-        pass
+            self.get_new_valid_words(guessed_word, feedbacks[0])
+            guessed_word = np.random.choice(self.valid_words)
+
+        result = "Solved" if feedbacks[1] else "Failed"
+        print(f"{result} in {num_attempts} attempts")
 
     def get_new_valid_words(self, word, feedback):
         new_valid_words = []
-        for i, feedback_pattern in self.feedback_table[self.word_index_table[word]]:
+        for i, feedback_pattern in enumerate(self.feedback_table[self.word_index_table[word]]):
             if feedback_pattern == feedback:
-                new_valid_words.append(self.word_index_table[i])
+                new_valid_words.append(self.word_index_table[str(i)])
         self.valid_words = new_valid_words
 
 
-
+if __name__ == "__main__":
+    agent = WordleBaseAgent()
+    agent.play_game()
 
 
 

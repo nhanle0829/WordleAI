@@ -10,7 +10,6 @@ class WordleGame:
     def choose_target_word() -> str:
         with open("./wordle-answers-alphabetical.txt") as in_file:
             words = [word.strip() for word in in_file.readlines()]
-        print(words[:10])
         return np.random.choice(words)
 
     def set_target_word(self, word: str) -> None:
