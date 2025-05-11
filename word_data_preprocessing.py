@@ -31,9 +31,15 @@ def generate_feedback_look_up_table():
 
     feedback_table = [[0] * len(word_index_table) for _ in range(len(word_index_table))]
     for word_row, i in word_index_table.items():
+        if len(word_row) < 5:
+            continue
+
         print(f"Current row: {i}")
         for word_col, j in word_index_table.items():
-            feedback_table[i][j] = generate_feedback(word_row, word_col)
+            if len(word_col) < 5:
+                continue
+
+            feedback_table[i][j] = generate_feedback(word_col, word_row)
 
     with open("./wordle_word_feedback_table.json", "w") as out_file:
         json.dump(feedback_table, out_file, indent=4)
@@ -61,5 +67,5 @@ def generate_feedback(targeted_word: str, guessed_word: str):
 
 if __name__ == "__main__":
     # generate_word_frequency_data()
-    generate_wordle_answer_word_index()
+    # generate_wordle_answer_word_index()
     # generate_feedback_look_up_table()
