@@ -22,7 +22,17 @@ def generate_wordle_answer_word_index():
         json.dump(words_index, out_file, indent=4)
 
 def generate_feedback_look_up_table():
-    pass
+    with open("./wordle_word_index_table.json") as in_file:
+        word_index_table = json.load(in_file)
+
+    feedback_table = [[0] * len(word_index_table) for _ in range(len(word_index_table))]
+    for word_row, i in word_index_table.items():
+        print(f"Current row: {i}")
+        for word_col, j in word_index_table.items():
+            feedback_table[i][j] = generate_feedback(word_row, word_col)
+
+    with open("./wordle_word_feedback_table.json", "w") as out_file:
+        json.dump(feedback_table, out_file, indent=4)
 
 def generate_feedback(targeted_word: str, guessed_word: str):
     feedback = [0] * len(guessed_word)
@@ -48,3 +58,4 @@ def generate_feedback(targeted_word: str, guessed_word: str):
 if __name__ == "__main__":
     # generate_word_frequency_data()
     # generate_wordle_answer_word_index()
+    # generate_feedback_look_up_table()
