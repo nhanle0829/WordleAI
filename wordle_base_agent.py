@@ -32,14 +32,21 @@ class WordleBaseAgent:
 
     def play_games(self, num_games):
         game = wordle.WordleGame()
+        total_attempt = 0
+        game_wins = 0
 
         for i in range(num_games):
-            print(f"Game {i + 1}: ", end="")
-            self.play_single_game(game)
+            # print(f"Game {i + 1}: ", end="")
+            result = self.play_single_game(game)
+            if result[0]:
+                game_wins += 1
+                total_attempt += result[1]
 
             game.new_game()
             self.current_valid_words = self.valid_words[:]
             self.current_valid_words_index = set(range(len(self.current_valid_words)))
+
+        return [game_wins, total_attempt]
 
 
     def play_single_game(self, game):
@@ -60,8 +67,10 @@ class WordleBaseAgent:
             self.get_new_valid_words(guessed_word, feedbacks[0])
             guessed_word = np.random.choice(self.current_valid_words)
 
-        result = "Solved" if feedbacks[1] else "Failed"
-        print(f"{result} in {num_attempts} attempts", flush=True)
+        # result = "Solved" if feedbacks[1] else "Failed"
+        # print(f"{result} in {num_attempts} attempts", flush=True)
+
+        return [feedbacks[1], num_attempts]
 
     def get_new_valid_words(self, word, feedback):
 
