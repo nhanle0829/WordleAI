@@ -6,17 +6,17 @@ import wordle
 class WordleBaseAgent:
     def __init__(self, first_guess=None):
         self.first_guess = first_guess
-        self.valid_words = self.get_valid_words()
-        self.current_valid_words = self.valid_words[:]
+        self.valid_words_with_freq = self.load_data()
+        self.current_valid_words = list(self.valid_words_with_freq.keys())
         self.current_valid_words_index = set(range(len(self.current_valid_words)))
         self.word_index_table = self.get_word_index_table()
         self.feedback_table = self.get_feedback_table()
 
     @staticmethod
-    def get_valid_words():
-        with open("./wordle-answers-alphabetical.txt") as in_file:
-            words = [word.strip() for word in in_file.readlines()]
-        return words
+    def load_data():
+        with open("./wordle_word_freq.json") as in_file:
+            data = json.load(in_file)
+        return data
 
     @staticmethod
     def get_word_index_table():
@@ -43,7 +43,7 @@ class WordleBaseAgent:
                 total_attempt += result[1]
 
             game.new_game()
-            self.current_valid_words = self.valid_words[:]
+            self.current_valid_words = list(self.valid_words_with_freq.keys())
             self.current_valid_words_index = set(range(len(self.current_valid_words)))
 
         return [game_wins, total_attempt]
@@ -51,7 +51,7 @@ class WordleBaseAgent:
 
     def play_single_game(self, game):
         if not self.first_guess:
-            guessed_word = np.random.choice(self.valid_words)
+            guessed_word = np.random.choice(self.current_valid_words)
         else:
             guessed_word = self.first_guess
 
