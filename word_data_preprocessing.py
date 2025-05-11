@@ -14,7 +14,12 @@ def generate_word_frequency_data():
         json.dump(normalized_freq, out_file, indent=4)
 
 def generate_wordle_answer_word_index():
-    pass
+    with open("./wordle-answers-alphabetical.txt") as in_file:
+        words = [word.strip() for word in in_file.readlines()]
+
+    words_index = {word: i for i, word in enumerate(words)}
+    with open("./wordle_word_index_table.json", "w") as out_file:
+        json.dump(words_index, out_file, indent=4)
 
 def generate_feedback_look_up_table():
     pass
@@ -41,4 +46,5 @@ def generate_feedback(targeted_word: str, guessed_word: str):
     return feedback
 
 if __name__ == "__main__":
-    generate_word_frequency_data()
+    # generate_word_frequency_data()
+    # generate_wordle_answer_word_index()
