@@ -36,7 +36,7 @@ class WordleBaseAgent:
         game_wins = 0
 
         for i in range(num_games):
-            # print(f"Game {i + 1}: ", end="")
+            print(f"Game {i + 1} ", end="\r", flush=True)
             result = self.play_single_game(game)
             if result[0]:
                 game_wins += 1

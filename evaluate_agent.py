@@ -4,7 +4,7 @@ from wordle_intermediate_agent import WordleIntermediateAgent
 
 def evaluate_agents():
     agents = [WordleBaseAgent, WordleIntermediateAgent]
-    total_game = 10
+    total_game = 1_000_000
 
     for agent_name in agents:
         agent = agent_name()
