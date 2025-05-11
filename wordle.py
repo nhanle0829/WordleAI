@@ -1,16 +1,25 @@
 import numpy as np
+import json
 
 
 class WordleGame:
     def __init__(self):
+        self.words = None
+        self.freq = None
+
+        self.load_data()
+
         self.target_word = self.choose_target_word()
         self.num_attempt = 0
 
-    @staticmethod
-    def choose_target_word() -> str:
-        with open("./wordle-answers-alphabetical.txt") as in_file:
-            words = [word.strip() for word in in_file.readlines()]
-        return np.random.choice(words)
+    def load_data(self):
+        with open("./wordle_word_freq.json") as in_file:
+            data = json.load(in_file)
+        self.words = list(data.keys())
+        self.freq = list(data.values())
+
+    def choose_target_word(self) -> str:
+        return np.random.choice(self.words, p=self.freq)
 
     def set_target_word(self, word: str) -> None:
         self.target_word = word
