@@ -1,5 +1,6 @@
 import json
 import numpy as np
+import wordle
 
 
 class WordleBaseAgent:
@@ -26,3 +27,35 @@ class WordleBaseAgent:
         with open("./wordle_word_feedback_table.json") as in_file:
             feedback_table = json.load(in_file)
         return feedback_table
+
+    def play_game(self):
+        if not self.first_guess:
+            guessed_word = np.random.choice(self.valid_words)
+        else:
+            guessed_word = self.first_guess
+
+        game = wordle.WordleGame()
+        num_attempts = 0
+        feedbacks = None
+        for _ in range(6):
+            feedbacks = game.guess_word(guessed_word)
+            num_attempts += 1
+
+            if feedbacks[1]:
+                break
+
+        pass
+
+    def get_new_valid_words(self, word, feedback):
+        new_valid_words = []
+        for i, feedback_pattern in self.feedback_table[self.word_index_table[word]]:
+            if feedback_pattern == feedback:
+                new_valid_words.append(self.word_index_table[i])
+        self.valid_words = new_valid_words
+
+
+
+
+
+
+
