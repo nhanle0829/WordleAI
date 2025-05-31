@@ -21,4 +21,25 @@ class WordleAdvancedAgent(WordleBaseAgent):
                 break
 
             self.get_new_valid_words(guessed_word, feedbacks[0])
+            guessed_word = self.choose_next_guess()
+
+        return [feedbacks[1], num_attempts]
+
+    def choose_next_guess(self):
+        words_entropies = dict()
+
+        for chosen_word in self.current_valid_words:
+            feedbacks_probability = dict()
+            total_probability = 0.0
+            for target_word in self.current_valid_words:
+                feedback = str(self.feedback_table[self.word_index_table[chosen_word]][self.word_index_table[target_word]])
+                if feedback not in feedbacks_probability:
+                    feedbacks_probability[feedback] = 0.0
+                word_freq = self.valid_words_with_freq[target_word]
+                feedbacks_probability[feedback] += word_freq
+                total_probability += word_freq
+            words_entropies[chosen_word] = self.entropy(feedbacks_probability.values(), total_probability)
+
+    def entropy(self, data, total):
+        pass
 
