@@ -48,6 +48,24 @@ class WordleBaseAgent:
 
         return [game_wins, total_attempt]
 
+    def play_exhaustive_words(self):
+        game = wordle.WordleGame()
+        total_attempt = 0
+        game_wins = 0
+
+        for word in self.valid_words_with_freq.keys():
+            game.set_target_word(word)
+            print(f"Game {word} ", end="\r", flush=True)
+            result = self.play_single_game(game)
+            if result[0]:
+                game_wins += 1
+                total_attempt += result[1]
+
+            game.new_game()
+            self.current_valid_words = list(self.valid_words_with_freq.keys())
+            self.current_valid_words_index = set(range(len(self.current_valid_words)))
+
+        return [game_wins, total_attempt]
 
     def play_single_game(self, game):
         if not self.first_guess:

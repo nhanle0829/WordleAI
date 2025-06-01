@@ -38,8 +38,19 @@ class WordleAdvancedAgent(WordleBaseAgent):
                 word_freq = self.valid_words_with_freq[target_word]
                 feedbacks_probability[feedback] += word_freq
                 total_probability += word_freq
-            words_entropies[chosen_word] = self.entropy(feedbacks_probability.values(), total_probability)
+            words_entropies[chosen_word] = self.entropy(list(feedbacks_probability.values()), total_probability)
+        return max(words_entropies, key=words_entropies.get)
 
-    def entropy(self, data, total):
-        pass
+    @staticmethod
+    def entropy(unnormalized_data, total):
+        data = np.array(unnormalized_data, dtype=np.float64)
 
+        prob_dist = data / total
+        prob_dist = prob_dist[prob_dist > 0]
+
+        return -np.sum(prob_dist * np.log2(prob_dist))
+
+if __name__ == "__main__":
+    a = WordleAdvancedAgent()
+    b = a.choose_next_guess()
+    print(b)
