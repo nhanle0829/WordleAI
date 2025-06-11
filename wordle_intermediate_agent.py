@@ -7,6 +7,8 @@ class WordleIntermediateAgent(WordleBaseAgent):
         super().__init__(first_guess)
 
     def play_single_game(self, game):
+        guessed_list = []
+
         if not self.first_guess:
             guessed_word = np.random.choice(self.current_valid_words)
         else:
@@ -15,6 +17,7 @@ class WordleIntermediateAgent(WordleBaseAgent):
         num_attempts = 0
         feedbacks = None
         for _ in range(6):
+            guessed_list.append(guessed_word)
             feedbacks = game.guess_word(guessed_word)
             num_attempts += 1
 
@@ -28,4 +31,4 @@ class WordleIntermediateAgent(WordleBaseAgent):
         # result = "Solved" if feedbacks[1] else "Failed"
         # print(f"{result} in {num_attempts} attempts", flush=True)
 
-        return [feedbacks[1], num_attempts]
+        return [feedbacks[1], num_attempts, guessed_list]

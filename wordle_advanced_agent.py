@@ -6,6 +6,8 @@ class WordleAdvancedAgent(WordleBaseAgent):
         super().__init__(first_guess)
 
     def play_single_game(self, game):
+        guessed_list = []
+
         if not self.first_guess:
             guessed_word = np.random.choice(self.current_valid_words)
         else:
@@ -14,6 +16,7 @@ class WordleAdvancedAgent(WordleBaseAgent):
         num_attempts = 0
         feedbacks = None
         for _ in range(6):
+            guessed_list.append(guessed_word)
             feedbacks = game.guess_word(guessed_word)
             num_attempts += 1
 
@@ -23,7 +26,7 @@ class WordleAdvancedAgent(WordleBaseAgent):
             self.get_new_valid_words(guessed_word, feedbacks[0])
             guessed_word = self.choose_next_guess()
 
-        return [feedbacks[1], num_attempts]
+        return [feedbacks[1], num_attempts, guessed_list]
 
     def choose_next_guess(self):
         words_entropies = dict()
